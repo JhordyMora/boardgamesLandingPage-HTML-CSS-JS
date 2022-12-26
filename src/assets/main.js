@@ -1,26 +1,20 @@
 import { BoardGame } from "./BoardGame.js";
-// import fetch from "node-fetch";
-// import fetch from "../../node_modules/node-fetch";
-// import fetch from '../../node-fetch';
 
-// console.log("connect");
+let boardGameContainer = document.querySelector('#BoardGame-container');
+let numberGamesSpan = document.querySelector("#number-games");
 
 let viewHTML=``;
-let myBoardGamesList = ["Living Forest", "Blood Rage", "Terraforming Mars", "Scythe", "Mysterium", "Sagrada", "Battlestar Galactica: The Board Game", "Machi Koro", "Robinson Crusoe: Adventures on the Cursed Island", "Power Grid", "Hanabi", "7 Wonders", "7 Wonders Duel", "Dead of Winter: The Long Night", "Sheriff of Nottingham"];
-let boardGameContainer = document.querySelector('#BoardGame-container');
+let myBoardGamesList = ["Living Forest", "Blood Rage", "Terraforming Mars", "Scythe", "Mysterium", "Sagrada", "Battlestar Galactica: The Board Game", "Machi Koro", "Robinson Crusoe: Adventures on the Cursed Island", "Power Grid", "Hanabi", "7 Wonders", "7 Wonders Duel", "Dead of Winter: The Long Night", "Sheriff of Nottingham", "BANG!", "Bang! The Dice Game", "Codenames: Pictures", "Colt Express", "Concept","Confusion", "Evolution", "Homeland: The Game", "King of New York", "Kingdom Builder", "Kuhhandel Master", "Magic Maze", "Mini Make 'n' Break", "Munchkin", "Not Alone", "Ohne Furcht und Adel", "Privacy Quickie", "Rise of Augustus", "Saboteur", "Sonar", "Space Alert", "Tiny Epic Galaxies", "Ultimate Werewolf: Ultimate Edition", "UNO", "Vault Wars", "Wizard", "Würfel Bohnanza"];
+let numberOfGames= myBoardGamesList.length;
+
+numberGamesSpan.innerHTML = numberOfGames;
+
+
 
 async function fetchBoardGameInfo(BoardGameName){
-    // console.log("fetch function");
     const boardGame = await fetch(`https://api.boardgameatlas.com/api/search?name=${BoardGameName}&client_id=zZpBwEBAxH`)
     const data = await boardGame.json()
     console.log(data.games[0]);
-    // console.log(data.games[0].name);
-    // console.log(data.games[0].price);
-    // console.log(data.games[0].year_published);
-    // console.log(data.games[0].min_players);
-    // console.log(data.games[0].max_players);
-    // console.log(data.games[0].description);
-    // console.log("'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
     return new BoardGame(data.games[0].name,data.games[0].image_url, data.games[0].price, data.games[0].year_published, data.games[0].min_players, data.games[0].max_players,
         data.games[0].playtime, data.games[0].description_preview);
 }
@@ -29,7 +23,6 @@ async function fetchBoardGameInfo(BoardGameName){
 for(let boardGame of myBoardGamesList){
     try{
         let boardGameObj = await fetchBoardGameInfo(boardGame);
-        // console.log(boardGameObj);
         let newViewHTML = `
             <div class="group relative">
             <div
@@ -51,7 +44,6 @@ for(let boardGame of myBoardGamesList){
             </div>
         `;
         viewHTML = viewHTML+newViewHTML
-        // boardGameContainer.appendChild(viewHTML)
     } catch{
         console.log("Boardgame not found 😮");
     }
