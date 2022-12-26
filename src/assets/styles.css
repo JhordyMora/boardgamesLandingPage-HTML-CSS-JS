@@ -1,0 +1,22 @@
+#title-bg{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-weight: bold;
+    font-size: large;
+}
+
+#description-bg{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: justify;
+}
+
+#description-bg span{
+    font-weight: bold;
+}
+
+#game-container span{
+    font-weight: bold;
+}
