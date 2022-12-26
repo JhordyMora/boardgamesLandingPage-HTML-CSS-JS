@@ -6,15 +6,25 @@ let numberGamesSpan = document.querySelector("#number-games");
 let viewHTML=``;
 let myBoardGamesList = ["Living Forest", "Blood Rage", "Terraforming Mars", "Scythe", "Mysterium", "Sagrada", "Battlestar Galactica: The Board Game", "Machi Koro", "Robinson Crusoe: Adventures on the Cursed Island", "Power Grid", "Hanabi", "7 Wonders", "7 Wonders Duel", "Dead of Winter: The Long Night", "Sheriff of Nottingham", "BANG!", "Bang! The Dice Game", "Codenames: Pictures", "Colt Express", "Concept","Confusion", "Evolution", "Homeland: The Game", "King of New York", "Kingdom Builder", "Kuhhandel Master", "Magic Maze", "Mini Make 'n' Break", "Munchkin", "Not Alone", "Ohne Furcht und Adel", "Privacy Quickie", "Rise of Augustus", "Saboteur", "Sonar", "Space Alert", "Tiny Epic Galaxies", "Ultimate Werewolf: Ultimate Edition", "UNO", "Vault Wars", "Wizard", "Würfel Bohnanza"];
 let numberOfGames= myBoardGamesList.length;
-
 numberGamesSpan.innerHTML = numberOfGames;
 
+async function creatingBoardJson(){
+    let myBoardGamesObjJson = {}
+    for(let boardGame of myBoardGamesList){
+        let boardGameObj = await fetchBoardGameInfo(boardGame);
+        myBoardGamesObjJson[boardGameObj.name] = [boardGameObj.image_url, boardGameObj.price, boardGameObj.year_published, boardGameObj.min_players, boardGameObj.max_players,
+        boardGameObj.playtime, boardGameObj.description_preview]
+    }
+    return myBoardGamesObjJson
+}
 
+let myBoardGamesObjJson = await creatingBoardJson();
+console.log(myBoardGamesObjJson);
 
 async function fetchBoardGameInfo(BoardGameName){
     const boardGame = await fetch(`https://api.boardgameatlas.com/api/search?name=${BoardGameName}&client_id=zZpBwEBAxH`)
     const data = await boardGame.json()
-    console.log(data.games[0]);
+    // console.log(data.games[0]);
     return new BoardGame(data.games[0].name,data.games[0].image_url, data.games[0].price, data.games[0].year_published, data.games[0].min_players, data.games[0].max_players,
         data.games[0].playtime, data.games[0].description_preview);
 }
