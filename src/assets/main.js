@@ -13,7 +13,6 @@ async function creatingBoardJson(){
     let myBoardGamesObjJson = {}
     for(let boardGame of myBoardGamesList){
         let boardGameObj = await fetchBoardGameInfo(boardGame);
-        // console.log(boardGameObj);
         myBoardGamesObjJson[boardGameObj.name] = [boardGameObj.image_url, boardGameObj.price, boardGameObj.year_published, boardGameObj.min_players, boardGameObj.max_players,
         boardGameObj.playtime, boardGameObj.description_preview]
         console.log("loop");
@@ -51,7 +50,6 @@ console.log(sortedElement);
 async function fetchBoardGameInfo(BoardGameName){
     const boardGame = await fetch(`https://api.boardgameatlas.com/api/search?name=${BoardGameName}&client_id=zZpBwEBAxH`)
     const data = await boardGame.json()
-    // console.log(data.games[0]);
     return new BoardGame(data.games[0].name,data.games[0].image_url, data.games[0].price, data.games[0].year_published, data.games[0].min_players, data.games[0].max_players,
         data.games[0].playtime, data.games[0].description_preview);
 }
