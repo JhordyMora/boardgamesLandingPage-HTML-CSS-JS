@@ -6,7 +6,6 @@ let numberGamesSpan = document.querySelector("#number-games");
 let viewHTML=``;
 let myBoardGamesList = ["Living Forest", "Blood Rage", "Terraforming Mars", "Scythe", "Mysterium", "Sagrada", "Battlestar Galactica: The Board Game", "Machi Koro", "Robinson Crusoe: Adventures on the Cursed Island", "Power Grid", "Hanabi", "7 Wonders", "7 Wonders Duel", "Dead of Winter: The Long Night", "Sheriff of Nottingham", "BANG!", "Bang! The Dice Game", "Codenames: Pictures", "Colt Express", "Concept","Confusion", "Evolution", "Homeland: The Game", "King of New York", "Kingdom Builder", "Kuhhandel Master", "Magic Maze", "Mini Make 'n' Break", "Munchkin", "Not Alone", "Ohne Furcht und Adel", "Privacy Quickie", "Rise of Augustus", "Saboteur", "Sonar", "Space Alert", "Tiny Epic Galaxies", "Ultimate Werewolf: Ultimate Edition", "UNO", "Vault Wars", "Wizard", "Würfel Bohnanza"];
 let numberOfGames= myBoardGamesList.length;
-let sortedElement;
 numberGamesSpan.innerHTML = numberOfGames;
 
 async function creatingBoardJson(){
@@ -15,37 +14,10 @@ async function creatingBoardJson(){
         let boardGameObj = await fetchBoardGameInfo(boardGame);
         myBoardGamesObjJson[boardGameObj.name] = [boardGameObj.image_url, boardGameObj.price, boardGameObj.year_published, boardGameObj.min_players, boardGameObj.max_players,
         boardGameObj.playtime, boardGameObj.description_preview]
-        console.log("loop");
+        // console.log("loop");
     }
     return myBoardGamesObjJson
 }
-
-let myBoardGamesObjJson = await creatingBoardJson();
-console.log(myBoardGamesObjJson);
-function sortingMyBoardGamesObjJson(myBoardGamesObjJson, condition){
-    let sortedElement;
-    if(condition=="Name Ascending"){
-        sortedElement = Object.keys(myBoardGamesObjJson).sort().reduce(
-            (obj, key) => { 
-              obj[key] = myBoardGamesObjJson[key]; 
-              return obj;
-            }, 
-            {}
-          );
-    } else if (condition=="Name Descending"){
-        sortedElement = Object.keys(myBoardGamesObjJson).reverse().reduce(
-            (obj, key) => { 
-              obj[key] = myBoardGamesObjJson[key]; 
-              return obj;
-            }, 
-            {}
-          );
-    }
-    return sortedElement
-}
-
-sortedElement = sortingMyBoardGamesObjJson(myBoardGamesObjJson, "Name Descending");
-console.log(sortedElement);
 
 async function fetchBoardGameInfo(BoardGameName){
     const boardGame = await fetch(`https://api.boardgameatlas.com/api/search?name=${BoardGameName}&client_id=zZpBwEBAxH`)
@@ -53,7 +25,6 @@ async function fetchBoardGameInfo(BoardGameName){
     return new BoardGame(data.games[0].name,data.games[0].image_url, data.games[0].price, data.games[0].year_published, data.games[0].min_players, data.games[0].max_players,
         data.games[0].playtime, data.games[0].description_preview);
 }
-
 
 for(let boardGame of myBoardGamesList){
     try{
